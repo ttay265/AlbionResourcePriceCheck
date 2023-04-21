@@ -1,0 +1,4 @@
+specVersion: '2.5'
+metadata:
+  name: custom_order_product
+type: application
