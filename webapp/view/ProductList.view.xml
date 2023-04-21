@@ -2,7 +2,7 @@
 	controllerName="com.order.productCustom_Order_Product.controller.ProductList"
 	xmlns:html="http://www.w3.org/1999/xhtml">
 	<Page title="{i18n>productList}">
-		<footer>
+		<!-- <footer>
 			<Toolbar>
 				<content>
 					<Button width="25%" icon="sap-icon://bar-code" />
@@ -11,12 +11,14 @@
 					<Button width="25%" icon="sap-icon://cart" />
 				</content>
 			</Toolbar>
-		</footer>
+		</footer> -->
 		<content>
 			<Toolbar>
 				<Select width="10rem" id="resource">
 					<core:Item key="_FIBER" text="Fiber" />
 					<core:Item key="_CLOTH" text="Cloth" />
+					<core:Item key="_HIDE" text="Hide" />
+					<core:Item key="_LEATHER" text="Leather"/>
 				</Select>
 				<Select id="tier">
 					<core:Item key="T4" text="Tier 4" />
@@ -34,7 +36,7 @@
 				</Select>
 				<Button text="Search" icon="sap-icon://search" press="onSearch"/>
 			</Toolbar>
-			<Table items="{/}">
+			<Table id="product" items="{/}">
 				<columns>
 					<Column>
 						<Label text="City" />
@@ -53,8 +55,8 @@
 					<ColumnListItem vAlign="Middle">
 						<cells>
 							<Text text="{city}" />
-							<Text text="{sell_price_min}" />
-							<Text text="{buy_price_max}" />
+							<ObjectNumber inverted="false" number="{sell_price_min}" />
+							<ObjectNumber inverted="false" number="{buy_price_max}" />
 						</cells>
 					</ColumnListItem>
 				</items>
