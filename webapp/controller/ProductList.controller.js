@@ -41,31 +41,44 @@ sap.ui.define([
                 const data = that.getModel().getProperty("/");
                 const oHighestSell = data.reduce(function(prev, current) {
                     return (prev.sell_price_min > current.sell_price_min) ? prev : current
-                }); //returns object
-                const oHighestItem = that.getView().byId("product").getItems().find(e =>
-                    e.getCells()[0].getBindingContext().getProperty("city") == oHighestSell.city
-                );
-                oHighestItem.getCells()[1].setState("Error");
-                oHighestItem.getCells()[1].setInverted(true);
-                oHighestItem.getCells()[2].setState("Error");
-                oHighestItem.getCells()[2].setInverted(true);
+                });
+                if (oHighestSell) {
+                    const oHighestItem = that.getView().byId("product").getItems().find(e =>
+                        e.getCells()[0].getBindingContext().getProperty("city") == oHighestSell.city
+                    );
+                    if (oHighestItem) {
+                        oHighestItem.getCells()[1].setState("Error");
+                        oHighestItem.getCells()[1].setInverted(true);
+                        oHighestItem.getCells()[2].setState("Error");
+                        oHighestItem.getCells()[2].setInverted(true);
+                    }
+                }
+
+
+                const lowData = data;
+                let i = 0;
+                for (i = lowData.length - 1; i >= 0; i--) {
+                    if (lowData[i].sell_price_min === 0) {
+                        lowData.splice(i, 1);
+                    }
+                }
 
                 const oLowestSell = data.reduce(function(prev, current) {
-                    return (prev.sell_price_min < current.sell_price_min && prev.sell_price_min !== 0) ? prev : current
-                }); //returns object
-                const oLowestItem = that.getView().byId("product").getItems().find(e =>
-                    e.getCells()[0].getBindingContext().getProperty("city") == oLowestSell.city
-                );
-                oLowestItem.getCells()[1].setState("Success");
-                oLowestItem.getCells()[1].setInverted(true);
-                oLowestItem.getCells()[2].setState("Success");
-                oLowestItem.getCells()[2].setInverted(true);
+                    return (prev.sell_price_min < current.sell_price_min) ? prev : current
+                });
+                if (oLowestSell) {
+                    const oLowestItem = that.getView().byId("product").getItems().find(e =>
+                        e.getCells()[0].getBindingContext().getProperty("city") == oLowestSell.city
+                    );
+                    if (oLowestItem) {
+                        oLowestItem.getCells()[1].setState("Success");
+                        oLowestItem.getCells()[1].setInverted(true);
+                        oLowestItem.getCells()[2].setState("Success");
+                        oLowestItem.getCells()[2].setInverted(true);
+                    }
+                }
             });
-
         }
-
-
-
     });
 
 });
