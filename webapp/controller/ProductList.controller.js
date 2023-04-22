@@ -28,6 +28,12 @@ sap.ui.define([
             const fullURL = this.url + filename + ".json";
             this.getModel().loadData(fullURL).then(e => {
 
+                that.getView().byId("product").getItems().forEach(e => {
+                    e.getCells()[1].setState("None");
+                    e.getCells()[1].setInverted(false);
+                    e.getCells()[2].setState("None");
+                    e.getCells()[2].setInverted(false);
+                });
 
                 that.getView().byId("product").setBusy(false);
                 //Highlight the lowest/highest city 
