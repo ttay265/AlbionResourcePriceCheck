@@ -35,6 +35,7 @@ sap.ui.define([
                     e.getCells()[2].setInverted(false);
                 });
 
+
                 that.getView().byId("product").setBusy(false);
                 //Highlight the lowest/highest city 
                 const data = that.getModel().getProperty("/");
