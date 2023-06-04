@@ -81,37 +81,45 @@ sap.ui.define([
         },
         onRefineCalculatePress: function(e) {
             let inFibPrice = parseFloat(this.byId("inFiberPrice").getValue());
-            let inFibQty = parseInt(this.byId("inFiberQty").getValue());
+            let inFibQty = Math.round(this.byId("inFiberQty").getValue());
             let inClothPrice = parseFloat(this.byId("inCloth-1Price").getValue());
-            let inClothQty = parseInt(this.byId("inCloth-1Qty").getValue());
+            let inClothQty = Math.round(this.byId("inCloth-1Qty").getValue());
             let inRRR = this.byId("inRRR").getValue();
 
             let returnedFib = inFibQty;
             let returnedCloth = inClothQty;
-            const totalCost = inFibPrice * inFibQty + inClothPrice * inClothQty;
+            const totalCost = Math.round(inFibPrice * inFibQty + inClothPrice * inClothQty);
             this.byId("totalCost").setValue(totalCost);
             let finalFib = returnedFib;
             let finalCloth = returnedCloth;
             do {
                 returnedFib = parseFloat(inRRR) * parseInt(returnedFib) / 100;
                 returnedCloth = parseFloat(inRRR) * parseInt(returnedCloth) / 100;
-                finalFib += returnedFib;
-                finalCloth += returnedCloth;
+                finalFib += Math.round(returnedFib);
+                finalCloth += Math.round(returnedCloth);
             }
-            while (parseFloat(returnedCloth) >= 1);
+            while (returnedCloth >= 1);
             this.byId("resultQty").setValue(finalCloth);
+            const val = this.byId("resultPrice").getValue() || 0;
+            const totalSell = Math.round(parseFloat(val) * parseInt(finalCloth) - 4 * parseFloat(val) * parseInt(finalCloth) / 100);
+            this.calculateRefineProfit(totalCost, totalSell);
         },
         onSellingPriceLiveChange: function(e) {
             let inFibPrice = parseFloat(this.byId("inFiberPrice").getValue());
-            let inFibQty = parseInt(this.byId("inFiberQty").getValue());
+            let inFibQty = Math.round(this.byId("inFiberQty").getValue());
             let inClothPrice = parseFloat(this.byId("inCloth-1Price").getValue());
-            let inClothQty = parseInt(this.byId("inCloth-1Qty").getValue());
+            let inClothQty = Math.round(this.byId("inCloth-1Qty").getValue());
             const resultQty = this.byId("resultQty").getValue();
             const val = e.getParameter("newValue") || 0;
 
-            const totalCost = inFibPrice * inFibQty + inClothPrice * inClothQty;
-            this.byId("totalSell").setValue(parseFloat(val) * parseInt(resultQty) - 4 * parseFloat(val) * parseInt(resultQty) / 100);
-            this.byId("netProfit").setValue(parseFloat(val) * parseInt(resultQty) - totalCost);
+            const totalCost = Math.round(inFibPrice * inFibQty + inClothPrice * inClothQty);
+            const totalSell = Math.round(parseFloat(val) * parseInt(resultQty) - 4 * parseFloat(val) * parseInt(resultQty) / 100);
+            this.calculateRefineProfit(totalCost, totalSell);
+        },
+        calculateRefineProfit: function(cost, sellPrice) {
+            this.byId("totalSell").setValue(sellPrice);
+            this.byId("netProfit").setValue(sellPrice - cost);
+            this.byId("profitMargin").setValue(((sellPrice - cost) / cost * 100).toFixed(2) + "%");
         },
         onFiberQtyLiveChange: function(e) {
             const rtier = this.byId("RTier").getSelectedKey();
@@ -147,7 +155,7 @@ sap.ui.define([
             }
             const inFiberQty = this.byId("inFiberQty").getValue();
             const val = e.getParameter("newValue") || 0;
-            this.byId("inCloth-1Qty").setValue(parseInt(inFiberQty / diff));
+            this.byId("inCloth-1Qty").setValue(Math.round(inFiberQty / diff));
 
         }
     });

@@ -114,6 +114,8 @@
 							<Input editable="false" id="totalSell" />
 							<Label text="Net Profit" />
 							<Input editable="false" id="netProfit" />
+							<Label text="Profit Margin" />
+							<Input editable="false" id="profitMargin" />
 							
 						</form:SimpleForm>
 						<Button text="Calculate" press="onRefineCalculatePress"></Button>
