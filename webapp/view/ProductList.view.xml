@@ -1,4 +1,5 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
+	xmlns:form="sap.ui.layout.form"
 	controllerName="com.order.productCustom_Order_Product.controller.ProductList"
 	xmlns:html="http://www.w3.org/1999/xhtml">
 	<Page title="{i18n>productList}">
@@ -13,54 +14,114 @@
 			</Toolbar>
 		</footer> -->
 		<content>
-			<Toolbar>
-				<Select width="10rem" id="resource">
-					<core:Item key="_FIBER" text="Fiber" />
-					<core:Item key="_CLOTH" text="Cloth" />
-					<core:Item key="_HIDE" text="Hide" />
-					<core:Item key="_LEATHER" text="Leather"/>
-				</Select>
-				<Select id="tier">
-					<core:Item key="T4" text="Tier 4" />
-					<core:Item key="T5" text="Tier 5" />
-					<core:Item key="T6" text="Tier 6" />
-					<core:Item key="T7" text="Tier 7" />
-					<core:Item key="T8" text="Tier 8" />
-				</Select>
-				<Select id="enc">
-					<core:Item key="" text="Enchantment 0" />
-					<core:Item key="_LEVEL1@1" text="Enchantment 1" />
-					<core:Item key="_LEVEL2@2" text="Enchantment 2" />
-					<core:Item key="_LEVEL3@3" text="Enchantment 3" />
-					<core:Item key="_LEVEL4@4" text="Enchantment 4" />
-				</Select>
-				<Button text="Search" icon="sap-icon://search" press="onSearch"/>
-			</Toolbar>
-			<Table id="product" items="{/}">
-				<columns>
-					<Column>
-						<Label text="City" />
-					</Column>
-					<Column>
-						<Label text="Sell Min" />
-					</Column>
-					<Column>
-						<Label text="Buy Max" />
-					</Column>
-					<!-- <Column>
+			<IconTabBar>
+				<items>
+					<IconTabFilter text="Price check">
+						<Toolbar>
+							<Select width="10rem" id="resource">
+								<core:Item key="_FIBER" text="Fiber" />
+								<core:Item key="_CLOTH" text="Cloth" />
+								<core:Item key="_HIDE" text="Hide" />
+								<core:Item key="_LEATHER" text="Leather" />
+							</Select>
+							<Select id="tier">
+								<core:Item key="T4" text="Tier 4" />
+								<core:Item key="T5" text="Tier 5" />
+								<core:Item key="T6" text="Tier 6" />
+								<core:Item key="T7" text="Tier 7" />
+								<core:Item key="T8" text="Tier 8" />
+							</Select>
+							<Select id="enc">
+								<core:Item key="" text="Enchantment 0" />
+								<core:Item key="_LEVEL1@1" text="Enchantment 1" />
+								<core:Item key="_LEVEL2@2" text="Enchantment 2" />
+								<core:Item key="_LEVEL3@3" text="Enchantment 3" />
+								<core:Item key="_LEVEL4@4" text="Enchantment 4" />
+							</Select>
+							<Button text="Search" icon="sap-icon://search" press="onSearch" />
+						</Toolbar>
+						<Table id="product" items="{/}">
+							<columns>
+								<Column>
+									<Label text="City" />
+								</Column>
+								<Column>
+									<Label text="Sell Min" />
+								</Column>
+								<Column>
+									<Label text="Buy Max" />
+								</Column>
+								<!-- <Column>
 						<Label text="{i18n>price}"/>
 					</Column> -->
-				</columns>
-				<items>
-					<ColumnListItem vAlign="Middle">
-						<cells>
-							<Text text="{city}" />
-							<ObjectNumber inverted="false" number="{sell_price_min}" />
-							<ObjectNumber inverted="false" number="{buy_price_max}" />
-						</cells>
-					</ColumnListItem>
+							</columns>
+							<items>
+								<ColumnListItem vAlign="Middle">
+									<cells>
+										<Text text="{city}" />
+										<ObjectNumber inverted="false" number="{sell_price_min}" />
+										<ObjectNumber inverted="false" number="{buy_price_max}" />
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</IconTabFilter>
+
+					<IconTabFilter text="Refine Calculator">
+						<form:SimpleForm
+							editable="true"
+							layout="ResponsiveGridLayout"
+							labelSpanXL="4"
+							labelSpanL="3"
+							labelSpanM="4"
+							labelSpanS="12"
+							adjustLabelSpan="false"
+							emptySpanXL="0"
+							emptySpanL="4"
+							emptySpanM="0"
+							emptySpanS="0"
+							columnsXL="2"
+							columnsL="2"
+							columnsM="2"
+							singleContainerFullSize="false">
+							<core:Title text="Refining" />
+							<Label text="Fiber Tier" />
+							<Select id="RTier">
+								<core:Item key="T4" text="Tier 4" />
+								<core:Item key="T5" text="Tier 5" />
+								<core:Item key="T6" text="Tier 6" />
+								<core:Item key="T7" text="Tier 7" />
+								<core:Item key="T8" text="Tier 8" />
+							</Select>
+							<Label text="Fiber Price" />
+							<Input id="inFiberPrice"/>
+							<Label text="Fiber Quantity" />
+							<Input id="inFiberQty" liveChange="onFiberQtyLiveChange" />
+							<Label text="Cloth T-1 Price" />
+							<Input id="inCloth-1Price" />
+							<Label text="Cloth T-1 Quantity"  />
+							<Input editable="false" id="inCloth-1Qty"/>
+							<Label text="Returned Resource Rate" />
+							<Input id="inRRR" />
+							<core:Title text="Result" />
+							<Label text="Quantity" />
+							<Input editable="false" id="resultQty" />
+							<Label text="Selling Price" />
+							<Input editable="true" id="resultPrice" liveChange="onSellingPriceLiveChange" />
+							<Label text="Total Cost" />
+							<Input editable="false" id="totalCost" />
+							<Label text="Total Sell" />
+							<Input editable="false" id="totalSell" />
+							<Label text="Net Profit" />
+							<Input editable="false" id="netProfit" />
+							
+						</form:SimpleForm>
+						<Button text="Calculate" press="onRefineCalculatePress"></Button>
+					</IconTabFilter>
 				</items>
-			</Table>
+
+			</IconTabBar>
+
 		</content>
 	</Page>
 </mvc:View>

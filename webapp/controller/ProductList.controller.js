@@ -78,7 +78,77 @@ sap.ui.define([
                     }
                 }
             });
+        },
+        onRefineCalculatePress: function(e) {
+            let inFibPrice = parseFloat(this.byId("inFiberPrice").getValue());
+            let inFibQty = parseInt(this.byId("inFiberQty").getValue());
+            let inClothPrice = parseFloat(this.byId("inCloth-1Price").getValue());
+            let inClothQty = parseInt(this.byId("inCloth-1Qty").getValue());
+            let inRRR = this.byId("inRRR").getValue();
+
+            let returnedFib = inFibQty;
+            let returnedCloth = inClothQty;
+            const totalCost = inFibPrice * inFibQty + inClothPrice * inClothQty;
+            this.byId("totalCost").setValue(totalCost);
+            let finalFib = returnedFib;
+            let finalCloth = returnedCloth;
+            do {
+                returnedFib = parseFloat(inRRR) * parseInt(returnedFib) / 100;
+                returnedCloth = parseFloat(inRRR) * parseInt(returnedCloth) / 100;
+                finalFib += returnedFib;
+                finalCloth += returnedCloth;
+            }
+            while (parseFloat(returnedCloth) >= 1);
+            this.byId("resultQty").setValue(finalCloth);
+        },
+        onSellingPriceLiveChange: function(e) {
+            let inFibPrice = parseFloat(this.byId("inFiberPrice").getValue());
+            let inFibQty = parseInt(this.byId("inFiberQty").getValue());
+            let inClothPrice = parseFloat(this.byId("inCloth-1Price").getValue());
+            let inClothQty = parseInt(this.byId("inCloth-1Qty").getValue());
+            const resultQty = this.byId("resultQty").getValue();
+            const val = e.getParameter("newValue") || 0;
+
+            const totalCost = inFibPrice * inFibQty + inClothPrice * inClothQty;
+            this.byId("totalSell").setValue(parseFloat(val) * parseInt(resultQty) - 4 * parseFloat(val) * parseInt(resultQty) / 100);
+            this.byId("netProfit").setValue(parseFloat(val) * parseInt(resultQty) - totalCost);
+        },
+        onFiberQtyLiveChange: function(e) {
+            const rtier = this.byId("RTier").getSelectedKey();
+            let diff = 5;
+            switch (rtier) {
+                case "T4":
+                    {
+                        diff = 2;
+                        break;
+                    }
+
+                case "T5":
+                    {
+                        diff = 3;
+                        break;
+                    }
+
+                case "T6":
+                    {
+                        diff = 4;
+                        break;
+                    }
+                case "T7":
+                    {
+                        diff = 5;
+                        break;
+                    }
+                case "T8":
+                    {
+                        diff = 6;
+                        break;
+                    }
+            }
+            const inFiberQty = this.byId("inFiberQty").getValue();
+            const val = e.getParameter("newValue") || 0;
+            this.byId("inCloth-1Qty").setValue(parseInt(inFiberQty / diff));
+
         }
     });
-
 });
