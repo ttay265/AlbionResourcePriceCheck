@@ -89,16 +89,19 @@ sap.ui.define([
             let returnedFib = inFibQty;
             let returnedCloth = inClothQty;
             const totalCost = Math.round(inFibPrice * inFibQty + inClothPrice * inClothQty);
-            this.byId("totalCost").setValue(totalCost);
+
             let finalFib = returnedFib;
             let finalCloth = returnedCloth;
+            let fee = 0;
             do {
+                fee += this.fee * Math.round(returnedCloth);
                 returnedFib = parseFloat(inRRR) * parseInt(returnedFib) / 100;
                 returnedCloth = parseFloat(inRRR) * parseInt(returnedCloth) / 100;
                 finalFib += Math.round(returnedFib);
                 finalCloth += Math.round(returnedCloth);
             }
             while (returnedCloth >= 1);
+            this.byId("totalCost").setValue(totalCost + fee);
             this.byId("resultQty").setValue(finalCloth);
             const val = this.byId("resultPrice").getValue() || 0;
             const totalSell = Math.round(parseFloat(val) * parseInt(finalCloth) - 4 * parseFloat(val) * parseInt(finalCloth) / 100);
@@ -125,38 +128,82 @@ sap.ui.define([
             const rtier = this.byId("RTier").getSelectedKey();
             let diff = 5;
             switch (rtier) {
-                case "T4":
+                case "4":
                     {
                         diff = 2;
                         break;
                     }
 
-                case "T5":
+                case "5":
                     {
                         diff = 3;
                         break;
                     }
 
-                case "T6":
+                case "6":
                     {
                         diff = 4;
                         break;
                     }
-                case "T7":
+                case "7":
                     {
                         diff = 5;
                         break;
                     }
-                case "T8":
+                case "8":
                     {
                         diff = 6;
                         break;
                     }
             }
-            const inFiberQty = this.byId("inFiberQty").getValue();
             const val = e.getParameter("newValue") || 0;
-            this.byId("inCloth-1Qty").setValue(Math.round(inFiberQty / diff));
+            this.byId("inCloth-1Qty").setValue(Math.round(val / diff));
 
+        },
+        onClothQtyLiveChange: function(e) {
+            const rtier = this.byId("RTier").getSelectedKey();
+            let diff = 5;
+            switch (rtier) {
+                case "4":
+                    {
+                        diff = 2;
+                        break;
+                    }
+
+                case "5":
+                    {
+                        diff = 3;
+                        break;
+                    }
+
+                case "6":
+                    {
+                        diff = 4;
+                        break;
+                    }
+                case "7":
+                    {
+                        diff = 5;
+                        break;
+                    }
+                case "8":
+                    {
+                        diff = 6;
+                        break;
+                    }
+            }
+            const val = e.getParameter("newValue") || 0;
+            this.byId("inFiberQty").setValue(Math.round(val * diff));
+        },
+        onFeeChange: function(e) {
+            const rtier = parseInt(this.byId("RTier").getSelectedKey());
+            const renh = parseInt(this.byId("REnh").getSelectedKey());
+            let itemValue = 1;
+            for (let i = 1; i <= (rtier + renh); i++) {
+                itemValue *= 2;
+            }
+            const usageFee = parseInt(this.byId("fee").getValue());
+            this.fee = usageFee / 100 * itemValue * 0.1125;
         }
     });
 });
