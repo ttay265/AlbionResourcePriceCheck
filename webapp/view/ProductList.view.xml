@@ -93,19 +93,19 @@
 								<core:Item key="7" text="Tier 7" />
 								<core:Item key="8" text="Tier 8" />
 							</Select>
-							<Select id="REnh">
+							<Select id="REnh" change="onEnhChange">
 								<core:Item key="0" text="Enchantment 0" />
 								<core:Item key="1" text="Enchantment 1" />
 								<core:Item key="2" text="Enchantment 2" />
 								<core:Item key="3" text="Enchantment 3" />
 								<core:Item key="4" text="Enchantment 4" />
 							</Select>
-							<Label text="Fiber T4" />
+							<Label id="lblFiber" text="Fiber T4" />
 							<Input id="inFiberPrice" placeholder="Price" />
 							<!-- <Label text="Fiber Quantity" /> -->
 							<Input id="inFiberQty" liveChange="onFiberQtyLiveChange"
 								placeholder="Quantity" />
-							<Label text="Cloth T3" />
+							<Label id="lblCloth" text="Cloth T3" />
 							<Input id="inCloth-1Price" placeholder="Price" />
 							<!-- <Label text="Cloth T-1 Quantity" /> -->
 							<Input id="inCloth-1Qty" liveChange="onClothQtyLiveChange" placeholder="Quantity" />

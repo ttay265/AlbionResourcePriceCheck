@@ -195,15 +195,31 @@ sap.ui.define([
             const val = e.getParameter("newValue") || 0;
             this.byId("inFiberQty").setValue(Math.round(val * diff));
         },
+        onTierChange: function(e) {
+
+            const rtier = parseInt(this.byId("RTier").getSelectedKey());
+            const renh = parseInt(this.byId("REnh").getSelectedKey());
+            this.byId("lblFiber").setText("Fiber T" + rtier);
+            this.byId("lblCloth").setText("Cloth T" + (parseInt(rtier) - 1));
+            this.recalFee(rtier, renh);
+        },
+        onEnhChange: function(e) {
+            const rtier = parseInt(this.byId("RTier").getSelectedKey());
+            const renh = parseInt(this.byId("REnh").getSelectedKey());
+            this.recalFee(rtier, renh);
+        },
         onFeeChange: function(e) {
             const rtier = parseInt(this.byId("RTier").getSelectedKey());
             const renh = parseInt(this.byId("REnh").getSelectedKey());
+            this.recalFee(rtier, renh);
+        },
+        recalFee: function(rtier, renh) {
             let itemValue = 1;
             for (let i = 1; i <= (rtier + renh); i++) {
                 itemValue *= 2;
             }
             const usageFee = parseInt(this.byId("fee").getValue());
-            this.fee = usageFee / 100 * itemValue * 0.1125;
+            this.fee = Math.round(usageFee / 100 * itemValue * 0.1125);
         }
     });
 });
